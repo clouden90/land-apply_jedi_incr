@@ -21,7 +21,7 @@ include( jediincr_compiler_flags )
 # Dependencies
 ################################################################################
 
-find_package(OpenMP COMPONENTS C Fortran)
+#find_package(OpenMP COMPONENTS C Fortran)
 find_package(MPI REQUIRED COMPONENTS C Fortran)
 find_package(NetCDF REQUIRED COMPONENTS Fortran )
 
@@ -47,7 +47,7 @@ ecbuild_add_library( TARGET   jediincr
 
 target_link_libraries(jediincr PUBLIC NetCDF::NetCDF_Fortran)
 target_link_libraries(jediincr PUBLIC MPI::MPI_Fortran)
-target_link_libraries(jediincr PUBLIC OpenMP::OpenMP_C OpenMP::OpenMP_Fortran)
+#target_link_libraries(jediincr PUBLIC OpenMP::OpenMP_C OpenMP::OpenMP_Fortran)
 
 #target_compile_options(jediincr PRIVATE  -r8 -init=huge -cpp, -DCCPP=.false. )
 
