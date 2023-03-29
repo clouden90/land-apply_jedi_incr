@@ -23,15 +23,11 @@ Before you write your own unit tests, you should make sure that you can build an
 The following is an example of how to compile/build and run unit testing, on the Hera/Orion HPC.
 
 ```bash
-# download input Data
-wget https://epic-sandbox-srw.s3.amazonaws.com/landda-test-inps.tar.gz
-tar xvfz landda-test-inps.tar.gz
-
-# download source code
+# download demo source code
 git clone -b unit_test_demo --recurse-submodules https://github.com/yichengt90/land-apply_jedi_incr.git 
 
 # load the machine specific modules (now only support Hera/Orion, here we use Orion as example)
-module use land-offline_workflow/modulefiles
+module use land-apply_jedi_incr/modulefiles
 module load landda_orion.intel
 
 # git clone pFUint and build
@@ -42,7 +38,7 @@ git clone https://github.com/Goddard-Fortran-Ecosystem/pFUnit.git
 mkdir -p pFUnit/build; cd pFUnit/build; ecbuild ..; make -j2; make install
 
 # compiling
-cd ../land-offline_workflow
+cd ../land-apply_jedi_incr
 mkdir build
 cd build
 ecbuild .. -DCMAKE_PREFIX_PATH={YOUR ROOT PATH}/pFUnit/build/installed

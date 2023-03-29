@@ -51,7 +51,7 @@ export PYTHON_EXEC=${PYTHON_EXEC:-`which python`}
 # configurations
 export RES=96
 export atmos_forc=gdas
-export TPATH="$LANDDA_INPUTS/forcing/${atmos_forc}/orog_files/"
+export TPATH="${project_source_dir}/test/testinput/forcing/${atmos_forc}/orog_files/"
 export TSTUB="oro_C${RES}.mx100"
 export GFSv17=NO
 export OBS_TYPES=("GHCN")
