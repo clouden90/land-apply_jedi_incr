@@ -9,6 +9,8 @@ project( jediincr VERSION 2022.10 LANGUAGES Fortran )
 
 # ecbuild integration
 find_package(ecbuild 3.3.2 REQUIRED)
+find_package(PFUNIT REQUIRED)
+enable_testing()
 include( ecbuild_system NO_POLICY_SCOPE )
 ecbuild_declare_project()
 
@@ -28,6 +30,7 @@ find_package(NetCDF REQUIRED COMPONENTS Fortran )
 ################################################################################
 
 #add_definitions ( -DCPP=0 )
+add_subdirectory(test)
 
 set( JEDIINCR_LINKER_LANGUAGE Fortran )
 
