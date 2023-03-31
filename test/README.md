@@ -1,20 +1,13 @@
 # unit testing
-Unit Testing Framework for ufs-landDA System. We implemented ctest and pFUnit (unit testing for fortran). Currently land-offline_workflow supports 9 tests as shown below. Users who plan to `design/add` a new test should refer to `Adding test` for details on how to do so. At a minimum, these users will need to add the new test case to the `./test/CMakeLists.txt`, and add corresponding files in the `test` folder.
+Unit Testing Framework for ufs-landDA System. We implemented ctest and pFUnit (unit testing for fortran). Currently there are 2 unit tests as shown below. Users who plan to `design/add` a new test should refer to `Adding test` for details on how to do so. At a minimum, these users will need to add the new test case to the `./test/CMakeLists.txt`, and add corresponding files in the `test` folder.
 
 ```
 $ ctest -N
-Test project /work2/noaa/epic-ps/ycteng/land_DA/20230307/build
+Test project /Users/yi-chengteng/epic/sandbox/land/example/build
   Test #1: test_jediincr_module
-  Test #2: test_python_compare_ecbuild
-  Test #3: test_python_compare_ctest
-  Test #4: test_vector2tile
-  Test #5: test_create_ens
-  Test #6: test_letkfoi_snowda
-  Test #7: test_apply_jediincr
-  Test #8: test_tile2vector
-  Test #9: test_land_driver
+  Test #2: test_apply_jediincr
 
-Total Tests: 9
+Total Tests: 2
 ```
 
 ## Building and running the existing unit tests
@@ -24,7 +17,7 @@ The following is an example of how to compile/build and run unit testing, on the
 
 ```bash
 # download demo source code
-git clone -b unit_test_demo --recurse-submodules https://github.com/yichengt90/land-apply_jedi_incr.git 
+git clone -b unit_test_example --recurse-submodules https://github.com/yichengt90/land-apply_jedi_incr.git 
 
 # load the machine specific modules (now only support Hera/Orion, here we use Orion as example)
 module use land-apply_jedi_incr/modulefiles
@@ -36,12 +29,13 @@ export CC=mpiicc
 export CXX=mpiicpc
 git clone https://github.com/Goddard-Fortran-Ecosystem/pFUnit.git
 mkdir -p pFUnit/build; cd pFUnit/build; ecbuild ..; make -j2; make install
+export PFUNIT_DIR={YOUR ROOT PATH}/pFUnit/build/installed
 
 # compiling
 cd ../land-apply_jedi_incr
 mkdir build
 cd build
-ecbuild .. -DCMAKE_PREFIX_PATH={YOUR ROOT PATH}/pFUnit/build/installed
+ecbuild .. 
 make -j2
 
 # grab a compute node and run ctests
@@ -54,17 +48,15 @@ ctest --stop-on-failure
 
 Screen output:
 
-Test project /lustre/land/land-apply_jedi_incr/build
+Test project /Users/yi-chengteng/epic/sandbox/land/example/build
     Start 1: test_jediincr_module
-1/3 Test #1: test_jediincr_module .............   Passed    0.02 sec
-    Start 2: test_python_compare
-2/3 Test #2: test_python_compare ..............   Passed    0.13 sec
-    Start 3: test_apply_jediincr
-3/3 Test #3: test_apply_jediincr ..............   Passed    1.76 sec
+1/2 Test #1: test_jediincr_module .............   Passed    0.06 sec
+    Start 2: test_apply_jediincr
+2/2 Test #2: test_apply_jediincr ..............   Passed    0.80 sec
 
-100% tests passed, 0 tests failed out of 3
+100% tests passed, 0 tests failed out of 2
 
-Total Test time (real) =   1.92 sec
+Total Test time (real) =   0.87 sec
 ```
 ## Add new test
 We build the unit tests using a build system called CMake. There are a few steps needed to get your new unit tests to build alongside the others:
@@ -72,6 +64,28 @@ We build the unit tests using a build system called CMake. There are a few steps
 1. Add the new production module to the build system
 2. Tell CMake about your new unit test directory
 3. Add/Mod CMakeLists.txt file in your new unit test directory
+
+Here is an example, assume we swrtie a python script for file comparsion (check python scripts under test/) and want to add it to unit testing framework. First open `./test/CMakeLists.txt` and add the following lines:
+```
+# test python compare function using ctest
+add_test(NAME test_python_compare
+         COMMAND ${PROJECT_SOURCE_DIR}/test/test_compare.py -v
+         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
+```
+
+After that rebuild the codes, run ctest, you will find new test was added:
+```
+Test project /Users/yi-chengteng/epic/sandbox/land/example/build
+    Start 1: test_jediincr_module
+1/3 Test #1: test_jediincr_module .............   Passed    0.11 sec
+    Start 2: test_python_compare
+2/3 Test #2: test_python_compare ..............   Passed    0.40 sec
+    Start 3: test_apply_jediincr
+3/3 Test #3: test_apply_jediincr ..............   Passed    1.09 sec
+
+100% tests passed, 0 tests failed out of 3
+```
+
 
 ## General guidelines for writing unit tests
 Good unit tests test a single, well-defined condition. This generally means that you make a single call to the function / subroutine that you're testing, with a single set of inputs.Good unit tests are "FIRST":
