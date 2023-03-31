@@ -4,14 +4,6 @@ import numpy as np
 import comparelib as comparelib
 
 class Testcomparelib(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
-        pass
-
     # Tests
  
     def test_diff(self):
