@@ -102,7 +102,7 @@ Good unit tests test a single, well-defined condition. This generally means that
 
 ## Presentations:
 
-* [2023 EPIC Code Fest unit testing](https://docs.google.com/presentation/d/1K_tcpQ59jvRY7T_uvFZ0Yppb_xWKSmE7MqUM9yNRtsE/edit?usp=sharing)
+* [2023 EPIC Code Fest unit testing](https://drive.google.com/file/d/1ptwIf2ACvDhUXFMi05_T4iSp-5VWa9Rd/view?usp=share_link)
 
 ## References
 Below are some useful refernces:
